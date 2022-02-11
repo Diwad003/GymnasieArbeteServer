@@ -145,17 +145,18 @@ char* Networking::GetIP(sockaddr_in aSockAddr)
 void Networking::SendBufferToClient()
 {
 	std::vector<unsigned char*> tempBufferBytes = myPacket->GetBuffer();
+	send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes.size()), sizeof(tempBufferBytes.size()), 0);
 	for (size_t i = 0; i < tempBufferBytes.size(); i++)
 	{
 		send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes[i]), sizeof(tempBufferBytes[i]), 0);
 	}
 
 
-	for (int i = 0; i < tempBufferBytes.size(); i++)
-	{
-		delete tempBufferBytes[i];
-	}
-	tempBufferBytes.clear();
+	//for (int i = 0; i < tempBufferBytes.size(); i++)
+	//{
+	//	delete tempBufferBytes[i];
+	//}
+	//tempBufferBytes.clear();
 }
 
 BOOL Networking::RequestLoop()
