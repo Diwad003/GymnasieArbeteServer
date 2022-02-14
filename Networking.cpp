@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <chrono>
+#include <thread>
 
 #pragma comment (lib, "ws2_32.lib")
 
@@ -49,7 +51,7 @@ void Networking::StartServer()
 	//Bind the socket to an ip adress and port
 	sockaddr_in tempAddr;
 	tempAddr.sin_family = AF_INET;
-	tempAddr.sin_port = htons(54000);
+	tempAddr.sin_port = htons(1000);
 	tempAddr.sin_addr.S_un.S_addr = INADDR_ANY;
 	bind(myListening, (sockaddr*)&tempAddr, sizeof(tempAddr));
 
@@ -145,10 +147,11 @@ char* Networking::GetIP(sockaddr_in aSockAddr)
 void Networking::SendBufferToClient()
 {
 	std::vector<unsigned char*> tempBufferBytes = myPacket->GetBuffer();
-	send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes.size()), sizeof(tempBufferBytes.size()), 0);
+	send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes.size()), sizeof(tempBufferBytes.size()), 0);//SEND SIZE
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	for (size_t i = 0; i < tempBufferBytes.size(); i++)
 	{
-		send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes[i]), sizeof(tempBufferBytes[i]), 0);
+		send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes[i]), sizeof(tempBufferBytes[i]), 0);//SEND THE DATA
 	}
 
 
