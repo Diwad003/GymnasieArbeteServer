@@ -1,4 +1,7 @@
 ﻿  Networking.cpp
 C:\Users\Dawid\Documents\GitHub\GymnasieArbeteServer\Networking.cpp(109,15): warning C4244: 'initializing': conversion from 'SOCKET' to 'int', possible loss of data
+C:\Users\Dawid\Documents\GitHub\GymnasieArbeteServer\Networking.cpp(161,39): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Packet.cpp
+  Generating Code...
 C:\Users\Dawid\Documents\GitHub\GymnasieArbeteServer\Networking.cpp(144): warning C4172: returning address of local variable or temporary: tempIPBuffer
   GymnasieArbeteServer.vcxproj -> C:\Users\Dawid\Documents\GitHub\GymnasieArbeteServer\x64\Debug\GymnasieArbeteServer.exe

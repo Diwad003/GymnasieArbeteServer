@@ -3,6 +3,8 @@
 
 #include <WS2tcpip.h>
 #include <vector>
+#include <iostream>
+#include <string>
 
 class Packet
 {
@@ -10,13 +12,13 @@ public:
 	Packet();
 	~Packet();
 
-	std::vector<unsigned char*> GetBuffer();
+	std::vector<std::string> GetBuffer();
 	void ResetBuffer();
 
 	void AddSystemTime();
 	void AddTexture();
 
 private:
-	std::vector<unsigned char*> myBuffer;
+	std::vector<std::string> myBuffer;
 };
 #endif

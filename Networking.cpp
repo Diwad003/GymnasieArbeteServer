@@ -146,20 +146,28 @@ char* Networking::GetIP(sockaddr_in aSockAddr)
 
 void Networking::SendBufferToClient()
 {
-	std::vector<unsigned char*> tempBufferBytes = myPacket->GetBuffer();
-	send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes.size()), sizeof(tempBufferBytes.size()), 0);//SEND SIZE
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-	for (size_t i = 0; i < tempBufferBytes.size(); i++)
+	char tempRecvArray[100];
+	int tempBufferRecv = recv(myClientSocket, tempRecvArray, sizeof(tempRecvArray), 0);
+	if (tempBufferRecv == 0)
 	{
-		send(myClientSocket, reinterpret_cast<char*>(tempBufferBytes[i]), sizeof(tempBufferBytes[i]), 0);//SEND THE DATA
+		std::cout << "tempBufferRecv == 0 RETURNING" << "\n";
+		return;
 	}
+	std::cout << "Gotten confirmation to send from client" << "\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 
-	//for (int i = 0; i < tempBufferBytes.size(); i++)
-	//{
-	//	delete tempBufferBytes[i];
-	//}
-	//tempBufferBytes.clear();
+	std::vector<std::string> tempBufferBytes = myPacket->GetBuffer();
+	int tempSize = tempBufferBytes.size();
+	send(myClientSocket, reinterpret_cast<char*>(&tempSize), sizeof(tempSize), 0);//SEND SIZE
+	std::cout << "Sent data to client" << "\n";
+
+
+
+	for (size_t i = 0; i < tempSize; i++)
+	{
+		send(myClientSocket, reinterpret_cast<char*>(&tempBufferBytes[i]), sizeof(tempBufferBytes), 0);//SEND DATA
+	}
 }
 
 BOOL Networking::RequestLoop()
