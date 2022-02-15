@@ -150,7 +150,7 @@ void Networking::SendBufferToClient()
 	int tempBufferRecv = recv(myClientSocket, tempRecvArray, sizeof(tempRecvArray), 0);
 	if (tempBufferRecv == 0)
 	{
-		std::cout << "tempBufferRecv == 0 RETURNING" << "\n";
+		std::cout << "tempBufferRecv == 0 RETURNING (sending size)" << "\n";
 		return;
 	}
 	std::cout << "Gotten confirmation to send from client" << "\n";
@@ -158,16 +158,15 @@ void Networking::SendBufferToClient()
 
 
 	std::vector<std::string> tempBufferBytes = myPacket->GetBuffer();
-	int tempSize = tempBufferBytes.size();
-	send(myClientSocket, reinterpret_cast<char*>(&tempSize), sizeof(tempSize), 0);//SEND SIZE
-	std::cout << "Sent data to client" << "\n";
-
-
-
-	for (size_t i = 0; i < tempSize; i++)
+	std::string tempFullBuffer = "";
+	for (size_t i = 0; i < tempBufferBytes.size(); i++)
 	{
-		send(myClientSocket, reinterpret_cast<char*>(&tempBufferBytes[i]), sizeof(tempBufferBytes), 0);//SEND DATA
+		tempFullBuffer += tempBufferBytes[i];
 	}
+
+
+	std::cout << "tempFullBuffer: " << tempFullBuffer << "\n";
+	send(myClientSocket, tempFullBuffer.c_str(), sizeof(tempFullBuffer), 0);//SEND DATA
 }
 
 BOOL Networking::RequestLoop()
