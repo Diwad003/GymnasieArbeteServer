@@ -1,8 +1,4 @@
 #include "Packet.h"
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-
 #pragma warning(disable : 4996)
 
 Packet::Packet()
@@ -41,17 +37,17 @@ void Packet::AddSystemTime()
 	myBuffer.push_back("/");
 }
 
-void Packet::AddTexture()
+void Packet::AddLevel1()
 {
-	cv::Mat tempImage = cv::imread("Textures/Wood.jpg");
-	std::vector<uchar> tempBuffer = std::vector<uchar>();
-	cv::imencode("jpg", tempImage, tempBuffer);
-
 	myBuffer.push_back("Texture");
 	myBuffer.push_back("/");
-	for (size_t i = 0; i < tempBuffer.size(); i++)
-	{
-		myBuffer.push_back((char*)tempBuffer[i]);
-	}
+	myBuffer.push_back("Wood");
+	myBuffer.push_back("/");
+
+	myBuffer.push_back("GameObjects");
+	myBuffer.push_back("/");
+	myBuffer.push_back("2:2:2");
+	myBuffer.push_back("/");
+	myBuffer.push_back("Cube");
 	myBuffer.push_back("/");
 }

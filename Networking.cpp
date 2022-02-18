@@ -195,28 +195,9 @@ BOOL Networking::RequestLoop()
 
 	myPacket->ResetBuffer();
 	myPacket->AddSystemTime();
-	if (tempReceivedString == "Texture")
-	{
-		myPacket->AddTexture();
-	}
 	if (tempReceivedString == "LoadLevel1")
 	{
-		//std::string tempLevelInformation = myFileManager->ReadFromFile("TextFiles/Level1.txt");
-		//std::string tempSplitter = "|";
-		//size_t tempPos = 0;
-		//std::string tempToken;
-		//std::vector<std::string> tempGameObjectData = std::vector<std::string>();
-		//while ((tempPos = tempLevelInformation.find(tempSplitter)) != std::string::npos) 
-		//{
-		//	tempToken = tempLevelInformation.substr(0, tempPos);
-		//	tempGameObjectData.push_back(tempToken);
-		//	tempLevelInformation.erase(0, tempPos + tempSplitter.length());
-		//}
-		//float tempPosition[3] = { std::stof(tempGameObjectData[1]), std::stof(tempGameObjectData[2]), std::stof(tempGameObjectData[3]) };
-		//float tempRotation[3] = { std::stof(tempGameObjectData[4]), std::stof(tempGameObjectData[5]), std::stof(tempGameObjectData[6]) };
-		//Gameobject tempGameobject = Gameobject(tempGameObjectData[0], tempPosition, tempRotation);
-		//myPacket->AddGameobject(tempGameobject);
-		//SendBufferToClient();
+		myPacket->AddLevel1();
 	}
 	SendBufferToClient();
 

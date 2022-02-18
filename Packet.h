@@ -16,7 +16,7 @@ public:
 	void ResetBuffer();
 
 	void AddSystemTime();
-	void AddTexture();
+	void AddLevel1();
 
 private:
 	std::vector<std::string> myBuffer;
