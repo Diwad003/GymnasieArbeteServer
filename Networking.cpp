@@ -154,7 +154,7 @@ void Networking::SendBufferToClient()
 		return;
 	}
 	std::cout << "Gotten confirmation to send from client" << "\n";
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
 
 	std::vector<std::string> tempBufferBytes = myPacket->GetBuffer();
@@ -163,10 +163,16 @@ void Networking::SendBufferToClient()
 	{
 		tempFullBuffer += tempBufferBytes[i];
 	}
+	tempFullBuffer += '~';
+	
 
-
-	std::cout << "tempFullBuffer: " << tempFullBuffer << "\n";
-	send(myClientSocket, tempFullBuffer.c_str(), sizeof(tempFullBuffer), 0);//SEND DATA
+	const char* tempCharBuffer = tempFullBuffer.c_str();
+	int tempArraySize = tempFullBuffer.size();
+	for (size_t i = 0; i < tempArraySize; i++)
+	{
+		std::cout << "Sending:" << tempCharBuffer[i] << "\n";
+		send(myClientSocket, &tempCharBuffer[i], sizeof(tempCharBuffer[i]), 0);//SEND DATA
+	}
 }
 
 BOOL Networking::RequestLoop()

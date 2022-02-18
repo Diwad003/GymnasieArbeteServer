@@ -33,6 +33,7 @@ void Packet::AddSystemTime()
 	ctime_s(tempBuffer, tempBufferSize, &tempNow);
 	std::string tempBufferString = tempBuffer;
 	tempBufferString.erase(std::remove(tempBufferString.begin(), tempBufferString.end(), '\n'), tempBufferString.end());
+	delete[] tempBuffer;
 
 	myBuffer.push_back("SystemTime");
 	myBuffer.push_back("/");
@@ -43,9 +44,14 @@ void Packet::AddSystemTime()
 void Packet::AddTexture()
 {
 	cv::Mat tempImage = cv::imread("Textures/Wood.jpg");
+	std::vector<uchar> tempBuffer = std::vector<uchar>();
+	cv::imencode("jpg", tempImage, tempBuffer);
 
 	myBuffer.push_back("Texture");
 	myBuffer.push_back("/");
-	myBuffer.push_back(reinterpret_cast<char*>(tempImage.data));
+	for (size_t i = 0; i < tempBuffer.size(); i++)
+	{
+		myBuffer.push_back((char*)tempBuffer[i]);
+	}
 	myBuffer.push_back("/");
 }
